@@ -2,13 +2,14 @@ import React from 'react';
 import styled from 'styled-components';
 import BackgroundImage from './../components/BackgroundImage';
 import Header from './../components/Header';
+import Login from './Login';
 
 export default function Signup() {
   return (
     <Container>
       <BackgroundImage />
       <div className="content">
-        <Header />
+        <Header login />
         
         <div className="body flex column a-center j-center">
         <div className="text flex column">
