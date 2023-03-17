@@ -8,6 +8,13 @@ export default function Signup() {
 
   const [ showPassword, setShowPassword ] = useState(false)
 
+  const [ formValues, setFormValues ] = useState({
+    email: "",
+    password: "",
+  });
+
+  console.log("formValues =====",formValues)
+
   return (
     <Container showPassword={showPassword}>
       <BackgroundImage />
@@ -22,9 +29,19 @@ export default function Signup() {
           </h6>
         </div>
         <div className="form">
-          <input type="email" placeholder='Email' name='email' />
+          <input type="email" placeholder='Email' name='email' 
+          value={formValues.email} 
+          onChange={(e) => setFormValues({ ...formValues, [e.target.name] : 
+          e.target.value, })} 
+
+          />
           {
-            showPassword && (<input type="password" placeholder='Password' name='password' />)
+            showPassword && ( 
+              <input type="password" placeholder='Password' name='password'value={formValues.password} 
+          onChange={(e) => setFormValues({ ...formValues, [e.target.name] : 
+          e.target.value, })}  
+
+          /> )
           }
           
           {
@@ -32,7 +49,7 @@ export default function Signup() {
           }
           
         </div>
-        <button>Log In</button>
+        <button>Sign Up</button>
       </div>
       </div>
     </Container>
@@ -62,7 +79,7 @@ position: relative;
     }
     .form {
       display: grid;
-      ${'' /* grid-template-columns: ${({ showPassword }) => showPassword ? "1fr 1fr" : '2fr 1fr'} */}
+      grid-template-columns: ${({ showPassword }) => showPassword ? "1fr 1fr" : '2fr 1fr'};
       width: 60%;
       input {
         color: black;
@@ -88,12 +105,12 @@ position: relative;
 
     button {
       padding: 0.5rem 1rem;
-  background-color: #e50914;
-  border: none;
-  cursor: pointer;
-  color:white;
-  font-weight: bolder;
-  font-size: 1.05rem;
+      background-color: #e50914;
+      border: none;
+      cursor: pointer;
+      color:white;
+      font-weight: bolder;
+      font-size: 1.05rem;
     }
   }
 `;
