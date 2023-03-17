@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import BackgroundImage from './../components/BackgroundImage';
 import Header from './../components/Header';
-import Login from './Login';
+import { createUserWithEmailAndPassword} from "firebase/auth"
+import { firebaseAuth } from './../utils/firebase-config';
 
 export default function Signup() {
 
@@ -13,7 +14,19 @@ export default function Signup() {
     password: "",
   });
 
-  console.log("formValues =====",formValues)
+ 
+
+  const handleSignIn = async () => {
+      console.log("formValues =====",formValues);
+
+      //sign in functionality created with firebaseAuth and firebase createUserWithEmailAndPassword function
+      try{
+        const { email, password } = formValues;
+        await createUserWithEmailAndPassword(firebaseAuth, email, password);
+      } catch (err) {
+        console.log(err);
+      }
+  }
 
   return (
     <Container showPassword={showPassword}>
@@ -49,7 +62,7 @@ export default function Signup() {
           }
           
         </div>
-        <button>Sign Up</button>
+        <button onClick={handleSignIn}>Sign Up</button>
       </div>
       </div>
     </Container>
