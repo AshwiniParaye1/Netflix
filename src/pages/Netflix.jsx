@@ -31,15 +31,18 @@ export default function Netflix() {  // define a React component called Netflix
   }, [] )
 
   useEffect(() => {
-    if(genresLoaded) dispatch(fetchMovies({type: "all"}));
-  }, [])
+    if (genresLoaded) {
+      dispatch(fetchMovies({type: "all" }));
+    }
+  }, [genresLoaded]);
   
+  console.log(movies)
 
   window.onscroll = () => {  // set a window event listener to detect when the page is scrolled
     setIsScrolled(window.pageYOffset === 0 ? false : true);  // set isScrolled to true if the page has been scrolled, otherwise false
     return () => (window.onscroll = null);  // remove the event listener when the component unmounts
   }
-console.log('movies ====', movies);
+
   return (  // return the JSX markup for the component
     <Container>  
       <Navbar isScrolled={isScrolled} /> 
