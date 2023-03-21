@@ -1,8 +1,10 @@
 import React from 'react'
+import styled from 'styled-components'
 import Card from './Card'
 
 export default function CardSlider( { data, title } ) {
   return (
+<Container className='flex column'>
   <div className='flex'>
     {
       data.map((movie, index) => {
@@ -11,6 +13,8 @@ export default function CardSlider( { data, title } ) {
     }
     
   </div>
+</Container>
 )
 }
 
+const Container = styled.div``;
