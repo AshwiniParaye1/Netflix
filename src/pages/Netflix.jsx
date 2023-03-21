@@ -7,7 +7,7 @@ import { AiOutlineInfoCircle } from 'react-icons/ai';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getGenres } from './../store/index';
+import { fetchMovies, getGenres } from './../store/index';
 
 
 
@@ -21,15 +21,24 @@ export default function Netflix() {  // define a React component called Netflix
 
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);  // use the useSelector hook from react-redux to select a piece of state
 
+  const movies = useSelector((state) => state.netflix.movies);
+
+  
+
   useEffect( () => {  // use the useEffect hook to fetch data when the component mounts
     dispatch(getGenres())
   }, [] )
+
+  useEffect(() => {
+    if(genresLoaded) dispatch(fetchMovies({type: "all"}));
+  }, [])
+  
 
   window.onscroll = () => {  // set a window event listener to detect when the page is scrolled
     setIsScrolled(window.pageYOffset === 0 ? false : true);  // set isScrolled to true if the page has been scrolled, otherwise false
     return () => (window.onscroll = null);  // remove the event listener when the component unmounts
   }
-
+console.log('movies ====', movies);
   return (  // return the JSX markup for the component
     <Container>  
       <Navbar isScrolled={isScrolled} /> 
