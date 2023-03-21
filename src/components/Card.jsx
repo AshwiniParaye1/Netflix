@@ -118,6 +118,35 @@ const Container = styled.div`
                 position: absolute;
             }
         }
+        .info-container {
+            padding: 1rem;
+            gap: 0.5rem;
+        }
+        .icons {
+            .controls {
+                display: flex;
+                gap: 1rem;
+            }
+            svg {
+                font-size: 2rem;
+                cursor: pointer;
+                transition: 0.3s ease-in-out;
+                &:hover {
+                    color: #b8b8b8;
+                }
+            }
+        }
+        .genres {
+            ul {
+                gap: 1rem;
+                li {
+                    padding-right: 0.7rem;
+                    &::first-of-type {
+                        list-style-type: none;
+                    }
+                }
+            }
+        }
     }
 
 `;
