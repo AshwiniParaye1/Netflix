@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovies, getGenres } from './../store/index';
+import Slider from '../components/Slider';
 
 
 
@@ -59,6 +60,7 @@ console.log('movies ====', movies);
           </div>
         </div>
       </div>
+      <Slider movies={movies} />
     </Container>
   )
 }
