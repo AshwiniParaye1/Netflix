@@ -10,7 +10,7 @@ import { BiChevronsDown } from 'react-icons/bi';
 
 
 
-export default function Card({movieData, isLiked = false}) {
+export default React.memo(function Card({movieData, isLiked = false}) {
 
     const [ isHovered, setIsHovered ] = useState(false);
 
@@ -71,7 +71,7 @@ export default function Card({movieData, isLiked = false}) {
     }
 
   </Container>
-}
+});
 
 
 const Container = styled.div`

@@ -3,7 +3,7 @@ import { AiOutlineRight, AiOutlineLeft } from 'react-icons/ai';
 import styled from 'styled-components'
 import Card from './Card'
 
-export default function CardSlider( { data, title } ) {
+export default React.memo(function CardSlider( { data, title } ) {
 
   const [showControls, setShowControls] = useState(false);
   const [sliderPosition, setSliderPosition] = useState(0);
@@ -51,7 +51,7 @@ export default function CardSlider( { data, title } ) {
 
   </Container>
 )
-}
+});
 
 const Container = styled.div`
 
