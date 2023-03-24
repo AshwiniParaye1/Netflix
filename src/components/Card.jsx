@@ -52,6 +52,7 @@ export default function Card({movieData, isLiked = false}) {
                                 )
                             }
                         </div>
+                      
                         <div className='info'>
                             <BiChevronsDown title='More Info' />
                         </div>
@@ -66,6 +67,7 @@ export default function Card({movieData, isLiked = false}) {
                 </div>
             </div>
         )
+        
     }
 
   </Container>
