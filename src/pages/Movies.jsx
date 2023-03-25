@@ -3,6 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMovies, getGenres } from './../store/index';
 import { useEffect } from 'react';
+import { onAuthStateChanged } from "firebase/auth";
+import { firebaseAuth } from './../utils/firebase-config';
+import styled from 'styled-components';
+import Navbar from '../components/Navbar';
+import NotAvailable from '../components/NotAvailable';
+import Slider from '../components/Slider';
+import SelectGenre from '../components/SelectGenre';
 
 
 
@@ -17,16 +24,17 @@ const dispatch = useDispatch();  // use the useDispatch hook from react-redux to
 const genresLoaded = useSelector((state) => state.netflix.genresLoaded);  // use the useSelector hook from react-redux to select a piece of state
 
 const movies = useSelector((state) => state.netflix.movies);
+const genres = useSelector((state) => state.netflix.genres);
 
   
 
-useEffect( () => {  // use the useEffect hook to fetch data when the component mounts
+useEffect( () => {  
   dispatch(getGenres())
 }, [] )
 
 useEffect(() => {
     if (genresLoaded) {
-        dispatch(fetchMovies({type: "movies" }));
+        dispatch(fetchMovies({type: "movie" }));
     }
 }, [genresLoaded]);
   
@@ -37,9 +45,37 @@ useEffect(() => {
     return () => (window.onscroll = null);  // remove the event listener when the component unmounts
   }
 
+    onAuthStateChanged(firebaseAuth,(currentUser) => {
+    // if(currentUser) navigate("/")
+  })
+
   return (
-    <div>
-      Movies
-    </div>
+    <Container>
+
+      <div className="navbar">
+        <Navbar isScrolled={isScrolled} />
+      </div>
+      
+      <div className="data">
+      <SelectGenre genres={genres} type="movie" />
+        {
+            movies.length ? <Slider movies={movies}/> : <NotAvailable />
+        }
+      </div>
+
+    </Container>
   )
 }
+
+const Container = styled.div`
+
+.data {
+    margin-top: 8rem;
+    .not-available {
+        text-align:center;
+        color: white;
+        margin-top: 4rem;
+    }
+}
+
+`;
