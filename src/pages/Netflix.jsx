@@ -72,7 +72,8 @@ const Container = styled.div`
   background-color: black;
   .hero {
     position: relative;
-    .background-image: {
+  
+    background-image: {
       filter: brightness(60%);
     }
     img {
@@ -116,4 +117,5 @@ const Container = styled.div`
       }
     }
   }
+
 `;
