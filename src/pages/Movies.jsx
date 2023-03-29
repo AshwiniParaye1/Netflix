@@ -1,81 +1,67 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMovies, getGenres } from './../store/index';
-import { useEffect } from 'react';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import Navbar from "../components/Navbar";
 import { onAuthStateChanged } from "firebase/auth";
-import { firebaseAuth } from './../utils/firebase-config';
-import styled from 'styled-components';
-import Navbar from '../components/Navbar';
-import NotAvailable from '../components/NotAvailable';
-import Slider from '../components/Slider';
-import SelectGenre from '../components/SelectGenre';
+import { firebaseAuth } from "../utils/firebase-config";
+import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchMovies, getGenres } from "../store";
+import SelectGenre from "../components/SelectGenre";
+import Slider from "../components/Slider";
+import NotAvailable from "../components/NotAvailable";
 
+function MoviePage() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const movies = useSelector((state) => state.netflix.movies);
+  const genres = useSelector((state) => state.netflix.genres);
+  const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-export default function Movies() {
+  useEffect(() => {
+    dispatch(getGenres());
+  }, []);
 
-const navigate = useNavigate()  // use the useNavigate hook from react-router-dom to handle navigation
-
-const [ isScrolled, setIsScrolled ] = useState(false)  // define a state variable called isScrolled to keep track of whether the page has been scrolled or not
-
-const dispatch = useDispatch();  // use the useDispatch hook from react-redux to dispatch actions
-
-const genresLoaded = useSelector((state) => state.netflix.genresLoaded);  // use the useSelector hook from react-redux to select a piece of state
-
-const movies = useSelector((state) => state.netflix.movies);
-const genres = useSelector((state) => state.netflix.genres);
-
-  
-
-useEffect( () => {  
-  dispatch(getGenres())
-}, [] )
-
-useEffect(() => {
+  useEffect(() => {
     if (genresLoaded) {
-        dispatch(fetchMovies({type: "movie" }));
+      dispatch(fetchMovies({ genres, type: "movie" }));
     }
-}, [genresLoaded]);
-  
-  console.log(movies)
+  }, [genresLoaded]);
 
-  window.onscroll = () => {  // set a window event listener to detect when the page is scrolled
-    setIsScrolled(window.pageYOffset === 0 ? false : true);  // set isScrolled to true if the page has been scrolled, otherwise false
-    return () => (window.onscroll = null);  // remove the event listener when the component unmounts
-  }
+  const [user, setUser] = useState(undefined);
 
-    onAuthStateChanged(firebaseAuth,(currentUser) => {
-    // if(currentUser) navigate("/")
-  })
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (currentUser) setUser(currentUser.uid);
+    else navigate("/login");
+  });
+
+  window.onscroll = () => {
+    setIsScrolled(window.pageYOffset === 0 ? false : true);
+    return () => (window.onscroll = null);
+  };
 
   return (
     <Container>
-
       <div className="navbar">
         <Navbar isScrolled={isScrolled} />
       </div>
-      
       <div className="data">
-      <SelectGenre genres={genres} type="movie" />
-        {
-            movies.length ? <Slider movies={movies}/> : <NotAvailable />
-        }
+        <SelectGenre genres={genres} type="movie" />
+        {movies.length ? <Slider movies={movies} /> : <NotAvailable />}
       </div>
-
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
-
-.data {
+  .data {
     margin-top: 8rem;
     .not-available {
-        text-align:center;
-        color: white;
-        margin-top: 4rem;
+      text-align: center;
+      color: white;
+      margin-top: 4rem;
     }
-}
-
+  }
 `;
+export default MoviePage;
