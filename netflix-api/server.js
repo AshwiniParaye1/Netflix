@@ -20,5 +20,5 @@ mongoose.connect(process.env.DB_LINK, {
     console.log("DB Connected");
 })
 .catch((error) => {
-    console.log(error);
+    console.log(error.message);
 });
